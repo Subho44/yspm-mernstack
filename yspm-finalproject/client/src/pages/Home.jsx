@@ -1,10 +1,11 @@
 import React from 'react'
+import Courselist from './Courselist'
 
-const Home = (props) => {
+const Home = () => {
 
   return <>
   <div>
-    {props.msg}
+   <Courselist/>
   </div>
   
   </>
