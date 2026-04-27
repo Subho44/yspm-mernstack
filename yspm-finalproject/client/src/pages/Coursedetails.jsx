@@ -1,49 +1,49 @@
-import React,{useState,useEffect} from 'react'
-import {Link,useParams} from "react-router-dom"
-import API from '../api/api';
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import API from "../api/api";
 
-const Coursedetails = () => {
-  const {id} = useParams();
-  const[course,setCourses] = useState(null);
-  
+function CourseDetails() {
+  const { id } = useParams();
 
-  //get courses
-  const getsingelcourses = async()=>{
-    const res = await API.get("/courses");
-    const singel = res.data.find(x=>x._id === id);
-    setCourses(singel);
+  const [course, setCourse] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const getCourseDetails = async () => {
+    try {
+      const res = await API.get(`/courses/${id}`);
+      setCourse(res.data);
+    } catch (err) {
+      console.log(err);
+      setCourse(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  //fetch all courses
+  useEffect(() => {
+    getCourseDetails();
+  }, [id]);
 
-  useEffect(()=>{
-    getsingelcourses();
-  },[id]);
+  if (loading) {
+    return <h3 className="text-center mt-5">Loading...</h3>;
+  }
 
+  if (!course) {
+    return <h3 className="text-center mt-5">Course Not Found</h3>;
+  }
 
-  return <>
-  <div className='container mt-5'>
-    <h2 className='mb-4 text-center'>All Courses</h2>
-    <div className='row'>
-      
-        <div className='col-md-4 mb-4'>
-          <div className='card shadow h-100'>
-           <div className='card-body'>
-              <h5 className='card-title'>{course.title}</h5>
-              <p className='card-text'>Price:₹{course.price}</p>
-              <Link to="/" className='btn btn-primary btn-sm mr-2'>
-              Back
-              </Link>
-            </div>
-          </div>  
-        </div>  
-     
+  return (
+    <div className="container mt-5">
+      <div className="card shadow p-4 col-md-6 mx-auto">
+        <h2 className="text-primary">{course.title}</h2>
+        <h4>Price: ₹{course.price}</h4>
+
+        <Link to="/" className="btn btn-dark mt-3">
+          Back to Courses
+        </Link>
+      </div>
     </div>
-
-  </div>
-  
-  
-  </>
+  );
 }
 
-export default Coursedetails;
+export default CourseDetails;

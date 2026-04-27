@@ -1,29 +1,46 @@
 const Course = require("../models/Course");
 
-//add course
-exports.addcourse = async (req,res)=>{
-    try {
-        const newcourse = await Course.create({...req.body});
-        res.json(newcourse);
-    } catch (err) {
-        console.log(err);
+// Add Course
+exports.addcourse = async (req, res) => {
+  try {
+    const newcourse = await Course.create(req.body);
+    res.status(201).json(newcourse);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Get All Courses
+exports.getcourses = async (req, res) => {
+  try {
+    const courses = await Course.find();
+    res.json(courses);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Get Single Course
+exports.getSingleCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found" });
     }
-}
-//get all course
-exports.getcourses = async (req,res)=>{
-    try {
-        const course = await Course.find();
-        res.json(course);
-    } catch (err) {
-        console.log(err);
-    }
-}
-//delete
-exports.deletecourses = async (req,res)=>{
-    try {
-        await Course.findByIdAndDelete(req.params.id);
-        res.json({msg:"deleted"});
-    } catch (err) {
-        console.log(err);
-    }
-}
+
+    res.json(course);
+  } catch (err) {
+    res.status(400).json({ message: "Invalid Course ID" });
+  }
+};
+
+// Delete Course
+exports.deletecourses = async (req, res) => {
+  try {
+    await Course.findByIdAndDelete(req.params.id);
+    res.json({ message: "Course deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
