@@ -35,6 +35,14 @@ function CourseDetails() {
   return (
     <div className="container mt-5">
       <div className="card shadow p-4 col-md-6 mx-auto">
+        {course.image && (
+              <img 
+              src={`http://localhost:5600/uploads/${course.image}`}
+              className='img-fluid mb-3' 
+              alt='img'
+              style={{height:"300px", objectFit:"cover"}}
+              />
+            )}
         <h2 className="text-primary">{course.title}</h2>
         <h4>Price: ₹{course.price}</h4>
 

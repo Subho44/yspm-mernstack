@@ -30,6 +30,14 @@ const Courselist = () => {
       {courses.map(x=>(
         <div className='col-md-4 mb-4' key={x._id}>
           <div className='card shadow h-100'>
+            {x.image && (
+              <img 
+              src={`http://localhost:5600/uploads/${x.image}`}
+              className='card-img-top' 
+              alt='img'
+              style={{height:"200px", objectFit:"cover"}}
+              />
+            )}
            <div className='card-body'>
               <h5 className='card-title'>{x.title}</h5>
               <p className='card-text'>Price:₹{x.price}</p>

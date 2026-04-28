@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const courseschema = new mongoose.Schema({
     title:String,
-    price:Number
+    price:Number,
+    image:String
 },
 {timestamps:true});
 

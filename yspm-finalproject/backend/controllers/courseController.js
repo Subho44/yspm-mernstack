@@ -3,7 +3,11 @@ const Course = require("../models/Course");
 // Add Course
 exports.addcourse = async (req, res) => {
   try {
-    const newcourse = await Course.create(req.body);
+    const newcourse = await Course.create({
+      title:req.body.title,
+      price:req.body.price,
+      image:req.file ? req.file.filename : "",
+    });
     res.status(201).json(newcourse);
   } catch (err) {
     res.status(500).json({ message: err.message });
