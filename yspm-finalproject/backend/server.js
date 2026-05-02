@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const connectdb = require("./database/db");
 const courseroutes = require("./routes/courseRoutes");
+const authroutes = require("./routes/authRoutes");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -13,6 +14,7 @@ app.get("/",(req,res)=>{
     res.send("API IS WORKING");
 });
 app.use("/api/courses",courseroutes);
+app.use("/api/auth",authroutes);
 const port = process.env.PORT || 5600;
 app.listen(port, ()=>{
     console.log("server is running port 5600");
