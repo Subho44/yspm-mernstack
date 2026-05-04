@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Addcourse from "./pages/Addcourse";
 import Coursedetails from "./pages/Coursedetails";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 const App = () => {
 
   return <>
@@ -19,6 +21,8 @@ const App = () => {
         <Route path="/feature" element={<Feature />}></Route>
          <Route path="/add" element={<Addcourse />}></Route>
           <Route path="/course/:id" element={<Coursedetails />}></Route>
+          <Route path="/register" element={<Register/>}></Route>
+          <Route path="/login" element={<Login />}></Route>
       </Routes>
 
     <Footer/>
