@@ -1,0 +1,13 @@
+const router = require("express").Router();
+const multer = require("multer");
+const path = require("path");
+const { addCourse, getCourses, getSingleCourse, deleteCourse, purchaseCourse } = require("../controllers/courseController");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
+const storage = multer.diskStorage({ destination:(req,file,cb)=>cb(null,"uploads/"), filename:(req,file,cb)=>cb(null,Date.now()+path.extname(file.originalname)) });
+const upload = multer({ storage });
+router.get("/", getCourses);
+router.get("/:id", getSingleCourse);
+router.post("/", protect, adminOnly, upload.single("image"), addCourse);
+router.delete("/:id", protect, adminOnly, deleteCourse);
+router.post("/:id/purchase", protect, purchaseCourse);
+module.exports = router;

@@ -33,7 +33,7 @@ const Login = () => {
     return <>
         <div className='container mt-5'>
             <div className='card shadow p-4 col-md-6 mx-auto'>
-                <h3 className='text-center mb-4'>Add course</h3>
+                <h3 className='text-center mb-4'>Login</h3>
                 <form onSubmit={hs}>
                     <label>Email</label>
                     <input

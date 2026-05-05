@@ -1,0 +1,6 @@
+const Course = require("../models/Course");
+exports.addCourse = async (req,res)=>{ try{ const course=await Course.create({title:req.body.title,price:req.body.price,description:req.body.description,image:req.file?req.file.filename:""}); res.status(201).json(course); }catch(error){ res.status(500).json({message:error.message}); } };
+exports.getCourses = async (req,res)=>{ try{ const courses=await Course.find().sort({createdAt:-1}); res.json(courses); }catch(error){ res.status(500).json({message:error.message}); } };
+exports.getSingleCourse = async (req,res)=>{ try{ const course=await Course.findById(req.params.id); if(!course) return res.status(404).json({message:"Course not found"}); res.json(course); }catch(error){ res.status(400).json({message:"Invalid course id"}); } };
+exports.deleteCourse = async (req,res)=>{ try{ await Course.findByIdAndDelete(req.params.id); res.json({message:"Course deleted successfully"}); }catch(error){ res.status(500).json({message:error.message}); } };
+exports.purchaseCourse = async (req,res)=>{ try{ const course=await Course.findById(req.params.id); if(!course) return res.status(404).json({message:"Course not found"}); res.json({message:"Purchase successful",course}); }catch(error){ res.status(400).json({message:"Purchase failed"}); } };

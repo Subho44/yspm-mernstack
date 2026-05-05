@@ -1,67 +1,112 @@
-import React from 'react'
-import { Link ,useNavigate} from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 const Navbar = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
-  const logout = ()=>{
+
+  let user = null;
+
+  try {
+    const savedUser = localStorage.getItem("user");
+    user = savedUser ? JSON.parse(savedUser) : null;
+  } catch (error) {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    user = null;
+  }
+
+  const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
-  }
-  return <>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">E-learning</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    window.location.reload();
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <Link className="navbar-brand" to="/">
+        E-learning
+      </Link>
+
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+      >
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <Link class="nav-link" to="/">Home <span class="sr-only">(current)</span></Link>
+
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav ml-auto">
+          <li className="nav-item">
+            <Link className="nav-link" to="/">
+              Home
+            </Link>
           </li>
-          <li class="nav-item">
-            <Link class="nav-link" to="/feature">Features</Link>
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/feature">
+              Features
+            </Link>
           </li>
-          <li class="nav-item">
-            <Link class="nav-link" to="/about">About</Link>
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/about">
+              About
+            </Link>
           </li>
-          <li class="nav-item">
-            <Link class="nav-link" to="/contact">Contact</Link>
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/contact">
+              Contact
+            </Link>
           </li>
-          {
-            user?.role === "admin" && (
-              <li class="nav-item">
-                <Link class="nav-link" to="/add">Add Course</Link>
+
+          {user?.role === "admin" && (
+            <li className="nav-item">
+              <Link className="nav-link" to="/add">
+                Add Course
+              </Link>
+            </li>
+          )}
+
+          {!user ? (
+            <>
+              <li className="nav-item">
+                <Link className="nav-link" to="/register">
+                  Register
+                </Link>
               </li>
-            )
-          }
-          {
-            !user ? (
-              <>
-                <li class="nav-item">
-                  <Link class="nav-link" to="/register">Register</Link>
-                </li>
-                <li class="nav-item">
-                  <Link class="nav-link" to="/login">Login</Link>
-                </li>
 
-              </>
-            ):(
-              <>
-              <span className='nav-link text-warning'>
-              {user.name} ({user.role})
-              </span>
-              <button className='btn btn-danger btn-sm' onClick={logout}>Logout</button>
-              </>
-            )
-      }
+              <li className="nav-item">
+                <Link className="nav-link" to="/login">
+                  Login
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="nav-item">
+                <span className="nav-link text-warning">
+                  {user.name} ({user.role})
+                </span>
+              </li>
 
-
+              <li className="nav-item">
+                <button
+                  className="btn btn-danger btn-sm mt-1"
+                  onClick={logout}
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </nav>
+  );
+};
 
-  </>
-}
-
-export default Navbar
+export default Navbar;
